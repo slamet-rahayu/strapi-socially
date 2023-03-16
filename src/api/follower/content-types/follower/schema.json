@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "followers",
+  "info": {
+    "singularName": "follower",
+    "pluralName": "followers",
+    "displayName": "follower"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "followers"
+    }
+  }
+}
