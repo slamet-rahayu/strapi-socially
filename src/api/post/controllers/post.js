@@ -8,7 +8,9 @@ const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController('api::post.post', ({strapi}) => ({
   async post(ctx) {
-    const res = await strapi.service('api::post.post').posts();
+    const { request: { query: { userId } } } = ctx;
+    console.log({ userId });
+    const res = await strapi.service('api::post.post').posts(userId);
     ctx.send(res);
   },
   async createPost(ctx) {

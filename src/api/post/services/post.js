@@ -7,20 +7,28 @@
 const { createCoreService } = require('@strapi/strapi').factories;
 
 module.exports = createCoreService('api::post.post', ({strapi}) => ({
-  async posts() {
-    const posts = await strapi.entityService.findMany('api::post.post', {
+  async posts(userId) {
+    const query = {
       populate: {
         post: {
           fields: ['url']
         },
         user_id: {
-          fields: ['id', 'username']
+          fields: ['id', 'username'],
         },
         likes: '*',
         comments: '*',
       },
       fields: ['id', 'caption', 'createdAt']
-    })
+    }
+    if (userId) {
+      Object.assign(query, {
+        filters: {
+          user_id: userId
+        },
+      })
+    }
+    const posts = await strapi.entityService.findMany('api::post.post', query)
     return posts
   },
   async createPost(body) {
